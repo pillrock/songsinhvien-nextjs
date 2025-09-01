@@ -9,7 +9,7 @@ const isAllNumber = (str: string): boolean => {
 // get data room by id
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const params = await context.params;
