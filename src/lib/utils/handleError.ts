@@ -10,9 +10,12 @@ export function handleError(error: unknown, message: string, idError: number) {
     );
   }
   console.log(`[#${idError}] Error undefined: ${error}`);
-  return NextResponse.json({
-    status: "error",
-    message: `[#${idError}] Error undefined: `,
-    idError,
-  });
+  return NextResponse.json(
+    {
+      status: "error",
+      message: `[#${idError}] Error undefined: `,
+      idError,
+    },
+    { status: 500 }
+  );
 }

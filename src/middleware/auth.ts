@@ -1,3 +1,4 @@
+import { handleError } from "@/lib/utils/handleError";
 import { verifyToken } from "@/lib/utils/verifyToken";
 import { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
@@ -32,10 +33,7 @@ export const withAuth = async (req: NextRequest) => {
 
     console.log("Access Token:", access_token);
     return NextResponse.next();
-  } catch (error) {
-    return NextResponse.json(
-      { status: "error", message: "Error verifying token" },
-      { status: 500 }
-    );
+  } catch (error: unknown) {
+    return handleError(error, "Error Verifying token", 500019);
   }
 };

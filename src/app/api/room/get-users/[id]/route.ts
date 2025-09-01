@@ -9,11 +9,11 @@ const isAllNumber = (str: string): boolean => {
 // get data room by id
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
-    const param = await params;
-    const roomId = param.id;
+    const params = await context.params;
+    const roomId = params.id;
     if (!isAllNumber(roomId)) {
       return NextResponse.json(
         {

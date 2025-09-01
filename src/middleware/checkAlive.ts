@@ -1,4 +1,5 @@
 import { conn } from "@/lib/db";
+import { handleError } from "@/lib/utils/handleError";
 import { verifyToken } from "@/lib/utils/verifyToken";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -52,10 +53,6 @@ export async function withCheckAlive(
       passwordHash: result[0].password_hash,
     } as DataUser);
   } catch (error) {
-    if (error instanceof Error)
-      return NextResponse.json(
-        { status: "error", message: "check alive error" + error?.message },
-        { status: 500 }
-      );
+    return handleError(error, "check alive error", 500020);
   }
 }
