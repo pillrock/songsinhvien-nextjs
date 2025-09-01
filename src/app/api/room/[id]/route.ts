@@ -1,0 +1,51 @@
+import { conn } from "@/lib/db";
+import { NextRequest, NextResponse } from "next/server";
+
+export const isAllNumber = (str: string): boolean => {
+  return /^\d+$/.test(str);
+};
+
+// get data room by id
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const param = await params;
+    const roomId = param.id;
+    if (!isAllNumber(roomId)) {
+      return NextResponse.json(
+        {
+          status: "error",
+          message: "Invalid room ID",
+        },
+        { status: 400 }
+      );
+    }
+    const result = await conn`SELECT * FROM rooms WHERE room_id = ${roomId}`;
+    if (result.length == 0) {
+      return NextResponse.json(
+        {
+          status: "error",
+          message: "Room not found",
+        },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json({
+      status: "ok",
+      message: `get room data successfully`,
+      data: result[0],
+    });
+  } catch (error) {
+    if (error instanceof Error)
+      return NextResponse.json(
+        {
+          status: "error",
+          message: "Failed to get room data" + error?.message,
+          error,
+        },
+        { status: 500 }
+      );
+  }
+}
