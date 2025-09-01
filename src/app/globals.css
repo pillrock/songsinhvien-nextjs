@@ -1,10 +1,5 @@
 @import "tailwindcss";
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -15,13 +10,16 @@
   --color-foreground: var(--foreground);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --background: #0a0a0a;
+    --background: #050505;
     --foreground: #ededed;
   }
 }
 
+code {
+  font-family: var(--font-base);
+}
 body {
   background: var(--background);
   color: var(--foreground);
