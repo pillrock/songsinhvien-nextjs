@@ -1,4 +1,5 @@
 import { conn } from "@/lib/db";
+import { handleError } from "@/lib/utils/handleError";
 import { withCheckAlive } from "@/middleware/checkAlive";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -45,13 +46,6 @@ export async function POST(req: NextRequest) {
       });
     });
   } catch (error) {
-    if (error instanceof Error)
-      return NextResponse.json(
-        {
-          status: "error",
-          message: "Failed to leave room" + error?.message,
-        },
-        { status: 500 }
-      );
+    return handleError(error, "Failed to leave room", 500011);
   }
 }

@@ -1,6 +1,7 @@
 import { conn } from "@/lib/db";
 import { NextResponse } from "next/server";
 import query from "@/lib/db-schema";
+import { handleError } from "@/lib/utils/handleError";
 export async function GET() {
   try {
     const result = await conn.unsafe(query);
@@ -10,13 +11,6 @@ export async function GET() {
       result,
     });
   } catch (error: unknown) {
-    if (error instanceof Error)
-      return NextResponse.json(
-        {
-          status: "error",
-          message: `Failed to create table: ${error.message}`,
-        },
-        { status: 500 }
-      );
+    return handleError(error, "Failed to create table", 500003);
   }
 }

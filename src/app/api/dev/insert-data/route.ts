@@ -1,4 +1,5 @@
 import { conn } from "@/lib/db";
+import { handleError } from "@/lib/utils/handleError";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -64,13 +65,6 @@ export async function GET() {
       message: "data added success: 3 rooms, 10 users, 20 transactions!",
     });
   } catch (error: unknown) {
-    if (error instanceof Error)
-      return NextResponse.json(
-        {
-          status: "error",
-          message: `Seed error: ${error.message}`,
-        },
-        { status: 500 }
-      );
+    return handleError(error, "Seed data error", 500005);
   }
 }

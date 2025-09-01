@@ -1,4 +1,5 @@
 import { conn } from "@/lib/db";
+import { handleError } from "@/lib/utils/handleError";
 import { withCheckAlive } from "@/middleware/checkAlive";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -43,14 +44,6 @@ export async function GET(req: NextRequest) {
       });
     });
   } catch (error) {
-    if (error instanceof Error)
-      return NextResponse.json(
-        {
-          status: "error",
-          message: "Failed to get room data" + error?.message,
-          error,
-        },
-        { status: 500 }
-      );
+    return handleError(error, "Failed to get room data", 500012);
   }
 }

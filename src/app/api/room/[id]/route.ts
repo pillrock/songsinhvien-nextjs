@@ -1,4 +1,5 @@
 import { conn } from "@/lib/db";
+import { handleError } from "@/lib/utils/handleError";
 import { NextRequest, NextResponse } from "next/server";
 
 export const isAllNumber = (str: string): boolean => {
@@ -38,14 +39,6 @@ export async function GET(
       data: result[0],
     });
   } catch (error) {
-    if (error instanceof Error)
-      return NextResponse.json(
-        {
-          status: "error",
-          message: "Failed to get room data" + error?.message,
-          error,
-        },
-        { status: 500 }
-      );
+    return handleError(error, "Failed to get room data", 500006);
   }
 }

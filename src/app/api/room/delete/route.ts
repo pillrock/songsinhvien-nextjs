@@ -1,4 +1,5 @@
 import { conn } from "@/lib/db";
+import { handleError } from "@/lib/utils/handleError";
 import { withCheckAlive } from "@/middleware/checkAlive";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -40,13 +41,6 @@ export async function DELETE(req: NextRequest) {
       });
     });
   } catch (error) {
-    if (error instanceof Error)
-      return NextResponse.json(
-        {
-          status: "error",
-          message: "Failed to delete room" + error?.message,
-        },
-        { status: 500 }
-      );
+    return handleError(error, "failed to delete room", 500008);
   }
 }

@@ -1,4 +1,5 @@
 import { conn } from "@/lib/db";
+import { handleError } from "@/lib/utils/handleError";
 import { withCheckAlive } from "@/middleware/checkAlive";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
@@ -67,14 +68,7 @@ export async function PUT(req: NextRequest) {
           { status: 400 }
         );
       }
-
-      return NextResponse.json(
-        {
-          status: "error",
-          message: "Failed to change password" + error?.message,
-        },
-        { status: 500 }
-      );
     }
+    return handleError(error, "Failed to change password", 500018);
   }
 }

@@ -1,4 +1,5 @@
 import { conn } from "@/lib/db";
+import { handleError } from "@/lib/utils/handleError";
 import { withCheckAlive } from "@/middleware/checkAlive";
 import { NextResponse, NextRequest } from "next/server";
 
@@ -29,14 +30,6 @@ export async function GET(req: NextRequest) {
       );
     });
   } catch (error) {
-    if (error instanceof Error)
-      return NextResponse.json(
-        {
-          status: "error",
-          message: "Failed to get all transactions" + error?.message,
-          error,
-        },
-        { status: 500 }
-      );
+    return handleError(error, "Failed to get all transactions", 500017);
   }
 }

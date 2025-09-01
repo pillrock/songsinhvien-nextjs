@@ -1,4 +1,5 @@
 import { conn } from "@/lib/db";
+import { handleError } from "@/lib/utils/handleError";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -12,15 +13,6 @@ export async function GET() {
       serverTime: result[0].now,
     });
   } catch (error: unknown) {
-    console.error("DB connection error:", error);
-    if (error instanceof Error)
-      return NextResponse.json(
-        {
-          status: "error",
-          message: "Failed to connect to database",
-          error: error.message,
-        },
-        { status: 500 }
-      );
+    return handleError(error, "Failed to connect to database", 500004);
   }
 }

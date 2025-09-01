@@ -2,6 +2,7 @@ import { conn } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { generateToken } from "@/lib/utils/generateToken";
+import { handleError } from "@/lib/utils/handleError";
 export async function POST(res: NextRequest) {
   try {
     const { username, password } = await res.json();
@@ -50,13 +51,6 @@ export async function POST(res: NextRequest) {
       },
     });
   } catch (error: unknown) {
-    if (error instanceof Error)
-      return NextResponse.json(
-        {
-          status: "error",
-          message: `Signup error: ${error.message}`,
-        },
-        { status: 500 }
-      );
+    return handleError(error, "SignUp error", 500002);
   }
 }
