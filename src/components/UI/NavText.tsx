@@ -49,7 +49,7 @@ export default function NavText({
             className={`px-7 py-6 absolute left-0 opacity-0 group-hover:opacity-100 
             group-hover:pointer-events-auto scale-80 group-hover:scale-100 origin-top-left
             pointer-events-none transition-all duration-300 -translate-x-[10%] translate-y-[10%]
-            border border-gray-2 bg-[#0b0c0f] w-max rounded-[14px] z-10`}
+            border border-gray-2 z-10 select-none group-hover:select-auto bg-[#0b0c0f] w-max rounded-[14px]`}
           >
             {children}
           </div>

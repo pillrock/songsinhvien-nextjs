@@ -2,6 +2,7 @@ import NavText from "./NavText";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import ButtonCustom from "./ButtonCustom";
 
 export default function NavBars() {
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
@@ -26,23 +27,26 @@ export default function NavBars() {
 
         {/* navbar PC*/}
         <div className="justify-end gap-x-10 hidden md:flex">
-          <NavText name="Utilities" dropMenu>
+          <NavText name="Tiện ích" dropMenu>
             <div>Sớm ra mắt</div>
           </NavText>
           <NavText name="FAQ">
-            <div>FAQ</div>
+            <div>Câu hòi thường gặp</div>
           </NavText>
-          <NavText name="Docs">
-            <div>Docs</div>
+          <NavText name="Tài liệu">
+            <div>Tài liệu</div>
           </NavText>
-          <NavText name="About us">
-            <div>About us</div>
+          <NavText name="Về chúng tôi">
+            <div>Về chúng tôi</div>
           </NavText>
         </div>
       </div>
 
+      {/* navbars mobile */}
       <div
-        onClick={() => setIsOpenMobileMenu(!isOpenMobileMenu)}
+        onClick={(e) => {
+          setIsOpenMobileMenu(!isOpenMobileMenu);
+        }}
         className="flex flex-col  md:hidden gap-y-[6px] group items-center justify-center py-7"
       >
         <div
@@ -63,6 +67,34 @@ export default function NavBars() {
           } w-6 h-[2px]  bg-foreground rounded-full
          transition-all duration-300`}
         ></div>
+      </div>
+
+      <div
+        className={`fixed md:hidden ${
+          isOpenMobileMenu &&
+          "translate-y-0! z-10 opacity-100! pointer-events-auto! select-auto!"
+        } w-full left-0 top-[68px] pb-[68px] px-5 bg-background translate-y-20
+         transition-all duration-300 z-10 select-none opacity-0 h-screen pointer-events-none`}
+      >
+        <div className="flex flex-col justify-between h-full">
+          <div>Xin chao cac ban</div>
+          <div className="py-8 flex flex-col md:flex-row gap-2 justify-between">
+            <div className="flex-1">
+              <ButtonCustom className="w-full text-[14px] font-base-bold ">
+                Đăng ký
+              </ButtonCustom>
+            </div>
+            <div className="flex-1">
+              <ButtonCustom
+                className="text-[14px] w-full font-base-bold flex-1"
+                full
+                href={"/about-us"}
+              >
+                Đăng nhập
+              </ButtonCustom>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

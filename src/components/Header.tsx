@@ -36,14 +36,14 @@ function Header() {
         </div>
         <div className="flex items-center gap-x-2 justify-end ">
           <ButtonCustom className="text-[14px] font-base-bold">
-            Log In
+            Đăng ký
           </ButtonCustom>
           <ButtonCustom
             className="text-[14px] font-base-bold "
             full
             href={"/about-us"}
           >
-            Sign Up
+            Đăng nhập
           </ButtonCustom>
         </div>
       </div>

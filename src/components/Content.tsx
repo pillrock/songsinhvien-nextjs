@@ -1,5 +1,4 @@
 import Introduction from "./Introduction";
-import ButtonCustom from "./UI/ButtonCustom";
 
 function Content() {
   return (
