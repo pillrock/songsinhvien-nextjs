@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Kanit } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -13,9 +13,9 @@ export const baseBoldFont = localFont({
   variable: "--font-base-bold",
   src: "../../public/fonts/base-bold.woff2",
 });
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const kanitFont = Kanit({
+  weight: "500",
+  variable: "--font-logo",
 });
 
 const geistMono = Geist_Mono({
@@ -35,10 +35,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased ${baseFont.className} `}>
-        <section>
-          <Header />
-        </section>
+      <body
+        className={`antialiased ${baseFont.className} ${baseBoldFont.variable} ${kanitFont.variable} overflow-x-hidden`}
+      >
+        <Header />
         <section>{children}</section>
         <section>
           <Footer />
