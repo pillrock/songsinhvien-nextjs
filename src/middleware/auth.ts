@@ -1,5 +1,5 @@
-import { handleError } from "@/lib/utils/handleError";
-import { verifyToken } from "@/lib/utils/verifyToken";
+import { handleError } from "@/lib/utils/backend/handleError";
+import { verifyToken } from "@/lib/utils/backend/verifyToken";
 import { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 export const withAuth = async (req: NextRequest) => {

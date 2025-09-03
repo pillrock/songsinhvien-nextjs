@@ -1,7 +1,7 @@
 import { conn } from "@/lib/db";
 import { NextResponse } from "next/server";
 import query from "@/lib/db-schema";
-import { handleError } from "@/lib/utils/handleError";
+import { handleError } from "@/lib/utils/backend/handleError";
 export async function GET() {
   try {
     const result = await conn.unsafe(query);

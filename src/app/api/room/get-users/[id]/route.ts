@@ -1,5 +1,5 @@
 import { conn } from "@/lib/db";
-import { handleError } from "@/lib/utils/handleError";
+import { handleError } from "@/lib/utils/backend/handleError";
 import { NextRequest, NextResponse } from "next/server";
 
 const isAllNumber = (str: string): boolean => {

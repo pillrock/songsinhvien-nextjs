@@ -1,6 +1,6 @@
 import { conn } from "@/lib/db";
-import { handleError } from "@/lib/utils/handleError";
-import { verifyToken } from "@/lib/utils/verifyToken";
+import { handleError } from "@/lib/utils/backend/handleError";
+import { verifyToken } from "@/lib/utils/backend/verifyToken";
 import { NextRequest, NextResponse } from "next/server";
 
 export interface DataUser {
