@@ -25,7 +25,7 @@ function Header() {
       <NavBars />
       <div className="hidden md:flex flex-1 justify-end gap-x-4 ">
         <div className="flex justify-end items-center">
-          <NavText name="Product" href={"https://github.com/pillrock"}>
+          <NavText name="Product" href={"https://github.com/pillrock"} mainNav>
             <div className="flex group items-center gap-x-1">
               <span className="group-hover:text-green-500">
                 <GithubIcon className="group-hover:text-green-500 transition-all duration-300" />

@@ -1,8 +1,8 @@
 import { conn } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { generateToken } from "@/lib/utils/generateToken";
-import { handleError } from "@/lib/utils/handleError";
+import { generateToken } from "@/lib/utils/backend/generateToken";
+import { handleError } from "@/lib/utils/backend/handleError";
 export async function POST(res: NextRequest) {
   try {
     const { username, password } = await res.json();

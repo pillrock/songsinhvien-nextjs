@@ -1,5 +1,5 @@
 import { conn } from "@/lib/db";
-import { handleError } from "@/lib/utils/handleError";
+import { handleError } from "@/lib/utils/backend/handleError";
 import { withCheckAlive } from "@/middleware/checkAlive";
 import { NextResponse, NextRequest } from "next/server";
 
