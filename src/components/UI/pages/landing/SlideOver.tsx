@@ -39,13 +39,10 @@ const sizeSlide = {
 const SlideOver = ({ anchors }: { anchors: "left" | "right" }) => {
   return (
     <div className="overflow-hidden w-full group relative mt-15">
-      <div className={`flex animate-slide-over-${anchors} w-max `}>
+      <div className={`flex animate-slide-over-${anchors} w-max relative `}>
         <div
           className={`gap-x-${sizeSlide.gapX} flex ${
-            anchors == "right" &&
-            `relative left-[${
-              (sizeSlide.width + sizeSlide.gapX * 4) * ListSlide.length
-            }px]`
+            anchors == "right" && `relative left-[-1664px]`
           }`}
         >
           {ListSlide.map((item, index) => {
@@ -67,7 +64,11 @@ const SlideOver = ({ anchors }: { anchors: "left" | "right" }) => {
             );
           })}
         </div>
-        <div className={`gap-x-${sizeSlide.gapX} flex `}>
+        <div
+          className={`gap-x-${sizeSlide.gapX} flex ${
+            anchors == "right" && `absolute left-0`
+          }`}
+        >
           {ListSlide.map((item, index) => {
             return (
               <div
