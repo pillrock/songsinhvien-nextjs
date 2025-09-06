@@ -11,6 +11,7 @@ export default function NavText({
   subName,
   mobile = false,
   mainNav = false,
+  className,
   ...props
 }: {
   children?: ReactNode;
@@ -22,12 +23,17 @@ export default function NavText({
   mobile?: boolean;
   subName?: string;
   mainNav?: boolean;
+  className?: string;
 }) {
   const Tag = dropMenu ? "div" : "a";
   console.log("name: ", name, " hred: ", href);
 
   return (
-    <Tag {...props} {...(href ? { href } : {})} className="relative">
+    <Tag
+      {...props}
+      {...(href ? { href } : {})}
+      className={`relative  ${className}`}
+    >
       <div className={`group ${(mainNav || mobile) && "py-2 md:py-5"}`}>
         <div className="flex items-center relative group/cc">
           {dropMenu ? (
@@ -35,7 +41,7 @@ export default function NavText({
               {name}
             </span>
           ) : arrow ? (
-            <span className="text-[14px] flex items-center gap-x-0.5 group-hover:text-[#0c8] transition-all duration-300 ">
+            <span className="text-[14px] text-foreground-plus flex items-center gap-x-0.5 group-hover:text-[#0c8] transition-all duration-300 ">
               {children}
               <span className="absolute -right-5 group-hover:-right-6.5 transition-all duration-300">
                 <MoveRightIcon size={17} />

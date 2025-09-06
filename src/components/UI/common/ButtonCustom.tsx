@@ -19,11 +19,13 @@ export default function ButtonCustom({
     <Tag
       {...props}
       {...(href ? { href } : {})}
-      className={`${className} ${
+      className={`${
+        !className?.includes("p-") && "px-4 py-[5px]"
+      } ${className} ${
         full
           ? "bg-primary-1 text-color-6"
           : "border border-gray-new hover:border-gray-500"
-      }  px-4 py-[5px] rounded-full transition-all duration-300 h-min ${
+      }   rounded-full transition-all duration-300 h-min ${
         cursorPointer && "cursor-pointer"
       } grid place-items-center ${
         className?.includes("w-full") ? "" : "max-w-max"

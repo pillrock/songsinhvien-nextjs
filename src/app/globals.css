@@ -19,6 +19,7 @@
   --foreground: #171717; */
   --background: #050505;
   --foreground: #ededed;
+  --foreground-plus: #ffffff;
 
   --bg-primary-1: #00e599;
 
@@ -48,6 +49,9 @@
   }
   .text-foreground {
     color: var(--foreground);
+  }
+  .text-foreground-plus {
+    color: var(--foreground-plus);
   }
   .gradient-theme {
     background: linear-gradient(
@@ -123,16 +127,40 @@
   .color-green {
     color: var(--color-green);
   }
+  @keyframes slide-over-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-1 * (400px + 16px) * 4));
+    }
+  }
+  @keyframes slide-over-right {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(1 * (400px + 16px) * 4));
+    }
+  }
+  .animate-slide-over-left {
+    animation: slide-over-left 20s linear infinite;
+  }
+  .animate-slide-over-right {
+    animation: slide-over-right 20s linear infinite;
+  }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-foreground-plus: var(--foreground-plus);
 }
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #050505;
     --foreground: #ededed;
+    --foreground: #ffffff;
   }
 }
 
