@@ -26,7 +26,6 @@ export default function NavText({
   className?: string;
 }) {
   const Tag = dropMenu ? "div" : "a";
-  console.log("name: ", name, " hred: ", href);
 
   return (
     <Tag

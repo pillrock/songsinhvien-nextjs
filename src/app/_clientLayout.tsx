@@ -1,8 +1,7 @@
 "use client";
 
-import { ReactNode } from "react";
 import Header from "@/components/UI/common/Header";
-import Footer from "@/components/UI/common/Footer";
+import { ReactNode } from "react";
 
 interface ClientLayoutProps {
   children: ReactNode;
@@ -11,9 +10,10 @@ interface ClientLayoutProps {
 export default function ClientLayout({ children }: ClientLayoutProps) {
   return (
     <>
-      <Header />
-      <main>{children}</main>
-      <Footer />
+      <main>
+        <Header />
+        {children}
+      </main>
     </>
   );
 }

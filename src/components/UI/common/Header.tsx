@@ -6,6 +6,7 @@ import GithubIcon from "../icons/github";
 import { useEffect, useState } from "react";
 import NavBars from "./NavBars";
 import GradientBox from "./GradientBox";
+import { routes } from "@/lib/constants/routes";
 
 function Header() {
   const [isSticky, setIsSticky] = useState(false);
@@ -37,13 +38,16 @@ function Header() {
           </NavText>
         </div>
         <div className="flex items-center gap-x-2 justify-end ">
-          <ButtonCustom className="text-[14px] font-base-bold">
+          <ButtonCustom
+            href={routes.signup}
+            className="text-[14px] font-base-bold"
+          >
             Đăng ký
           </ButtonCustom>
           <ButtonCustom
             className="text-[14px] font-base-bold "
             full
-            href={"/about-us"}
+            href={routes.signin}
           >
             Đăng nhập
           </ButtonCustom>

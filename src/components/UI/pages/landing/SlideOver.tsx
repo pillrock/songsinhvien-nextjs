@@ -37,11 +37,13 @@ const sizeSlide = {
   gapX: 4,
 };
 const SlideOver = ({ anchors }: { anchors: "left" | "right" }) => {
+  const animationClass =
+    anchors === "left" ? "animate-slide-over-left" : "animate-slide-over-right";
   return (
-    <div className="overflow-hidden w-full group relative mt-15">
-      <div className={`flex animate-slide-over-${anchors} w-max relative `}>
+    <div className="overflow-hidden w-full relative mt-15 ">
+      <div className={`slide-animation flex ${animationClass} w-max relative `}>
         <div
-          className={`gap-x-${sizeSlide.gapX} flex ${
+          className={`gap-x-${sizeSlide.gapX}  flex ${
             anchors == "right" && `relative left-[-1664px]`
           }`}
         >
@@ -65,7 +67,7 @@ const SlideOver = ({ anchors }: { anchors: "left" | "right" }) => {
           })}
         </div>
         <div
-          className={`gap-x-${sizeSlide.gapX} flex ${
+          className={`gap-x-${sizeSlide.gapX}  flex ${
             anchors == "right" && `absolute left-0`
           }`}
         >
@@ -101,6 +103,11 @@ const SlideOver = ({ anchors }: { anchors: "left" | "right" }) => {
         ]}
         className="absolute w-full h-full top-0 left-0 select-none pointer-events-none"
       ></GradientBox>
+      <style jsx>{`
+        .slide-animation:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </div>
   );
 };

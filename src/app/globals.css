@@ -149,6 +149,10 @@
   .animate-slide-over-right {
     animation: slide-over-right 20s linear infinite;
   }
+  .animate-pause {
+    animation-play-state: paused !important;
+    background: red !important;
+  }
 }
 
 @theme inline {
