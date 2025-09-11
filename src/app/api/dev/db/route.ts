@@ -1,5 +1,5 @@
 import { conn } from "@/lib/db";
-import { handleError } from "@/lib/utils/backend/handleError";
+import { handleError } from "@/lib/utils/api/handleError";
 import { NextResponse } from "next/server";
 
 export async function GET() {

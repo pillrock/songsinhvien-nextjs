@@ -9,6 +9,7 @@ export default function InputCustom({
   id,
   value,
   onChangeValue,
+  required = false,
 }: {
   className?: string;
   handleClick?: () => void;
@@ -16,6 +17,7 @@ export default function InputCustom({
   type?: string; // "text", "password", "email", etc.
   id: string;
   value: string;
+  required?: boolean;
   onChangeValue: (value: string) => void;
 }) {
   const [focus, setFocus] = useState(false);
@@ -39,6 +41,7 @@ export default function InputCustom({
         type={type}
         id={id}
         name={id}
+        required={required}
         value={value}
         autoComplete="off"
         onChange={(e) => onChangeValue(e.target.value)}

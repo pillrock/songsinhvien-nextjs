@@ -172,3 +172,31 @@ body {
   background: var(--background);
   color: var(--foreground);
 }
+button {
+  outline: none;
+}
+
+@keyframes l9 {
+  to {
+    background-position: calc(50% + 1.6em) 0, calc(50% + 3.2em) 0.8em;
+  }
+}
+.loader {
+  width: fit-content;
+  font-size: 40px;
+  line-height: 1.5;
+  font-family: system-ui, sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #0000;
+  -webkit-text-stroke: 1px #00e599;
+  background: radial-gradient(1.13em at 50% 1.6em, #00e599 99%, #0000 101%)
+      calc(50% - 1.6em) 0/3.2em 100% text,
+    radial-gradient(1.13em at 50% -0.8em, #0000 99%, #10b981 101%) 50% 0.8em/3.2em
+      100% repeat-x text;
+  animation: l9 2s linear infinite;
+  filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.4));
+}
+.loader:before {
+  content: "SSV";
+}

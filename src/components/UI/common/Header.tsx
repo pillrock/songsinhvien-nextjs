@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import ButtonCustom from "./ButtonCustom";
 import NavText from "./NavText";
 import GithubIcon from "../icons/github";
