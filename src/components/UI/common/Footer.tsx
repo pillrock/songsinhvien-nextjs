@@ -1,6 +1,8 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import GradientBox from "./GradientBox";
+import { useEffect, useState } from "react";
 
 const ListFooter = [
   {
@@ -38,7 +40,12 @@ const ListFooter = [
 ];
 
 function Footer() {
-  return (
+  const [token, setToken] = useState<string | null>(null);
+  useEffect(() => {
+    const tokenStoraged = localStorage.getItem("token");
+    if (tokenStoraged) setToken(tokenStoraged);
+  }, []);
+  return !token ? (
     <>
       <GradientBox
         className="w-screen relative left-0 h-[1px]"
@@ -92,6 +99,12 @@ function Footer() {
         </div>
       </div>
     </>
+  ) : (
+    <div className="flex justify-center">
+      <p className="text-xs text-foreground/30">
+        &copy; {new Date().getFullYear()} Sống Sinh Viên. All rights reserved.
+      </p>
+    </div>
   );
 }
 

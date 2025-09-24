@@ -1,13 +1,12 @@
 "use client";
-import ButtonCustom from "@/components/UI/common/ButtonCustom";
 import GradientBox from "@/components/UI/common/GradientBox";
 import GradientText from "@/components/UI/common/GradientText";
 import InputCustom from "@/components/UI/common/InputCustom";
 import userService from "@/lib/api/user";
 import { routes } from "@/lib/constants/routes";
-import { useLoadingStore } from "@/lib/zustand/loadingStore";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 
 export interface Auth {
@@ -23,16 +22,34 @@ const InitAuth = {
 };
 
 export default function Signup() {
+  const router = useRouter();
   const [auth, setAuth] = useState<Auth>(InitAuth);
-  const setIsLoading = useLoadingStore((state) => state.setLoading);
-  console.log(auth);
+  const [isLoginFail, setIsLoginFail] = useState(false);
+  //check token exists
+  useEffect(() => {
+    const tokenStoraged = localStorage.getItem("token");
+    if (tokenStoraged) router.push(routes.home);
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    const res = await userService.loginUser(auth);
-    console.log(res);
-    setIsLoading(false);
+    const dataResponse = await userService.loginUser(auth);
+    if (dataResponse.status === "ok") {
+      console.log(dataResponse);
+
+      //save
+      localStorage.setItem(
+        "token",
+        dataResponse.data ? dataResponse.data.access_token : ""
+      );
+      localStorage.setItem(
+        "user",
+        dataResponse.data ? JSON.stringify(dataResponse.data) : ""
+      );
+
+      router.push(routes.home);
+    } else setIsLoginFail(true);
+
     setAuth(InitAuth);
   };
 
@@ -71,6 +88,7 @@ export default function Signup() {
           </div>
           <div>
             <InputCustom
+              className={`${isLoginFail && !auth.username && "border-red-600"}`}
               value={auth.username}
               onChangeValue={(value) =>
                 setAuth((prev) => ({ ...prev, username: value }))
@@ -78,8 +96,10 @@ export default function Signup() {
               label="Tên người dùng*"
               id="username"
               required
+              maxLength={20}
             />
             <InputCustom
+              className={`${isLoginFail && !auth.password && "border-red-600"}`}
               value={auth.password}
               onChangeValue={(value) =>
                 setAuth((prev) => ({ ...prev, password: value }))
@@ -89,6 +109,21 @@ export default function Signup() {
               type="password"
               required
             />
+            <div
+              className={`overflow-hidden transition-all max-h-0 duration-300 ${
+                isLoginFail && !auth.password && "max-h-full"
+              } `}
+            >
+              <p className={`text-sm text-red-800 py-2 transition-all `}>
+                Tên người dùng hoặc mật khẩu không chính xác
+              </p>
+            </div>
+            {/* {true && (
+              <div className="flex my-2 p-4 bg-[#FFEE58] text-[#9b7616] border border-[#F2B705]">
+                <AlertOctagon size={24} />
+                <p className="text-sm ">Đăng nhập không thành công</p>
+              </div>
+            )} */}
             <button className="w-full">
               <GradientBox
                 anchors="to-r"
@@ -106,12 +141,12 @@ export default function Signup() {
             </div>
           </div>
 
-          <div className="bg-foreground/20 h-[1px] relative ">
+          <div className="bg-foreground/20 h-[1px] relative transition-all ">
             <span className="absolute top-[-14px] bg-background left-[50%] translate-x-[-50%] text-foreground/30">
               or
             </span>
           </div>
-          <div className="flex gap-x-2 px-4 py-3 hover:border-[#18a89f] border rounded-md font-base-bold text-foreground/70 hover:text-foreground/100 border-[#0B4F4A] transition-all duration-300 cursor-pointer  justify-center">
+          <div className="flex gap-x-2 px-4 py-3  border rounded-md font-base-bold text-foreground/70 hover:text-foreground/100 border-[#2b2b2b] transition-all duration-300 cursor-pointer  justify-center">
             <Image
               src={"/svgs/google.svg"}
               alt="ggIcon"

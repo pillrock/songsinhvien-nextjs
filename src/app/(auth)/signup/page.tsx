@@ -1,28 +1,59 @@
 "use client";
-import ButtonCustom from "@/components/UI/common/ButtonCustom";
 import GradientBox from "@/components/UI/common/GradientBox";
 import GradientText from "@/components/UI/common/GradientText";
 import InputCustom from "@/components/UI/common/InputCustom";
 import { routes } from "@/lib/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import userService from "@/lib/api/user";
+import { FormEvent } from "react";
+import { useRouter } from "next/navigation";
 export interface Auth {
   username: string;
   password: string;
   confirmPassword: string;
 }
 
-const InutAuth = {
+const InitAuth = {
   username: "",
   password: "",
   confirmPassword: "",
 };
 
 export default function Signup() {
-  const [auth, setAuth] = useState<Auth>(InutAuth);
-  console.log(auth);
+  const router = useRouter();
+  const [auth, setAuth] = useState<Auth>(InitAuth);
+  const isMatchPassword = auth.password === auth.confirmPassword;
+  const [isSignupFail, setIsSignupFail] = useState(false);
+  //check token exists
+  useEffect(() => {
+    const tokenStoraged = localStorage.getItem("token");
+    if (tokenStoraged) router.push(routes.home);
+  }, []);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!isMatchPassword) return;
+    const dataResponse = await userService.registerUser({
+      username: auth.username,
+      password: auth.password,
+    });
+    if (dataResponse.status === "ok") {
+      console.log("Signup success");
+      localStorage.setItem(
+        "token",
+        dataResponse.data ? dataResponse.data.access_token : ""
+      );
+      localStorage.setItem(
+        "user",
+        dataResponse.data ? JSON.stringify(dataResponse.data) : ""
+      );
+      router.push(routes.home);
+    } else setIsSignupFail(true);
+
+    setAuth(InitAuth);
+  };
 
   return (
     <div className="flex lg:mt-10 h-screen">
@@ -40,6 +71,7 @@ export default function Signup() {
         </div>
       </div>
       <form
+        onSubmit={handleSubmit}
         className="flex-1 items-center justify-center flex md:m-0"
         method="post"
       >
@@ -64,6 +96,8 @@ export default function Signup() {
               }
               label="Tên người dùng*"
               id="username"
+              required
+              maxLength={20}
             />
             <InputCustom
               value={auth.password}
@@ -73,6 +107,7 @@ export default function Signup() {
               label="Mật khẩu*"
               id="password"
               type="password"
+              required
             />
             <InputCustom
               value={auth.confirmPassword}
@@ -82,14 +117,35 @@ export default function Signup() {
               label="Nhập lại mật khẩu*"
               id="confirm-password"
               type="password"
+              required
             />
-            <GradientBox
-              anchors="to-r"
-              colors={["transparent", "#00E599"]}
-              className="w-full text-center rounded-md! opacity-90 hover:opacity-100 duration-300 transition-all cursor-pointer font-base-bold text-lg md:text-xl mt-5 p-2"
+            <div
+              className={`overflow-hidden transition-all max-h-0 duration-300 ${
+                !isMatchPassword && "max-h-full"
+              } `}
             >
-              Đăng ký
-            </GradientBox>
+              <p className={`text-sm text-yellow-600 py-2 transition-all `}>
+                Mật khẩu không khớp
+              </p>
+            </div>
+            <div
+              className={`overflow-hidden transition-all max-h-0 duration-300 ${
+                isSignupFail && !auth.password && "max-h-full"
+              } `}
+            >
+              <p className={`text-sm text-red-800 py-2 transition-all `}>
+                Tên người dùng đã tồn tại
+              </p>
+            </div>
+            <button type="submit">
+              <GradientBox
+                anchors="to-r"
+                colors={["transparent", "#00E599"]}
+                className="w-full text-center rounded-md! opacity-90 hover:opacity-100 duration-300 transition-all cursor-pointer font-base-bold text-lg md:text-xl mt-5 p-2"
+              >
+                Đăng ký
+              </GradientBox>
+            </button>
             <div className="text-sm mt-2 text-right">
               <span>Đã có tài khoản? </span>
               <span className="text-[#00E599] underline">

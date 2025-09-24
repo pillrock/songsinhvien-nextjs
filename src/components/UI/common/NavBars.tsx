@@ -1,7 +1,9 @@
+"use client";
+
 import NavText from "./NavText";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ButtonCustom from "./ButtonCustom";
 import useDisableScroll from "@/lib/utils/frontend/DisableScroll";
 import {
@@ -10,6 +12,8 @@ import {
   Download,
   ShoppingBagIcon,
 } from "lucide-react";
+import { routes } from "@/lib/constants/routes";
+import { User } from "@/lib/api/user";
 
 export const NavBarsData = [
   {
@@ -41,18 +45,26 @@ export const NavBarsData = [
   },
   {
     name: "Tài Liệu",
-    href: "documents",
+    href: "/documents",
   },
   {
     name: "Về chúng tôi",
-    href: "about",
+    href: "/about",
   },
 ];
 
 export default function NavBars() {
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [indexOpenDropMenu, setIndexOpenDropMenu] = useState(-1);
-  console.log(indexOpenDropMenu);
+  const [userStorage, setUserStorage] = useState<User | null>(null);
+
+  useEffect(() => {
+    setUserStorage(
+      localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user")!)
+        : null
+    );
+  }, []);
 
   useDisableScroll(isOpenMobileMenu);
   return (
@@ -212,22 +224,47 @@ export default function NavBars() {
               );
             })}
           </div>
-          <div className="py-8 flex flex-col md:flex-row gap-2 justify-between">
-            <div className="flex-1">
-              <ButtonCustom className="w-full text-[14px] font-base-bold ">
-                Đăng ký
-              </ButtonCustom>
-            </div>
-            <div className="flex-1">
-              <ButtonCustom
-                className="text-[14px] w-full font-base-bold flex-1"
-                full
-                href={"/about-us"}
+          {!userStorage ? (
+            <div className="py-8 flex flex-col md:flex-row gap-2 justify-between">
+              <div
+                onClick={() => setIsOpenMobileMenu(false)}
+                className="flex-1"
               >
-                Đăng nhập
-              </ButtonCustom>
+                <ButtonCustom
+                  href={routes.signup}
+                  className="w-full text-[14px] font-base-bold "
+                >
+                  Đăng ký
+                </ButtonCustom>
+              </div>
+              <div
+                className="flex-1"
+                onClick={() => setIsOpenMobileMenu(false)}
+              >
+                <ButtonCustom
+                  className="text-[14px] w-full font-base-bold flex-1"
+                  full
+                  href={routes.signin}
+                >
+                  Đăng nhập
+                </ButtonCustom>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="flex justify-end items-center gap-x-2 mb-10">
+              <p>{userStorage.username}</p>
+              <div
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  localStorage.removeItem("user");
+                  setUserStorage(null);
+                }}
+                className="cursor-pointer grid w-[35px] h-[35px] rounded-full bg-[#10B981] place-items-center"
+              >
+                {userStorage.username?.charAt(0).toUpperCase()}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

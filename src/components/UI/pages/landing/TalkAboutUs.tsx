@@ -1,18 +1,7 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useRef } from "react";
 
 const TalkAboutUs = () => {
-  useEffect(() => {
-    const handleScroll = () => {
-      console.log(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
   return (
     <div className="h-screen pt-20 flex relative flex-col">
       <div className="text-4xl text-center mb-10">

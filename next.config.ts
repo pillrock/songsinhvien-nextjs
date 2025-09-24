@@ -11,6 +11,13 @@ const nextConfig: NextConfig = {
         pathname: "/**",
         search: "",
       },
+      {
+        protocol: "https",
+        hostname: "placewaifu.com",
+        port: "",
+        pathname: "/**",
+        search: "",
+      },
     ],
   },
 };
