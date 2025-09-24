@@ -1,5 +1,5 @@
 import { conn } from "@/lib/db";
-import { handleError } from "@/lib/utils/backend/handleError";
+import { handleError } from "@/lib/utils/api/handleError";
 import { withCheckAlive } from "@/middleware/checkAlive";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";

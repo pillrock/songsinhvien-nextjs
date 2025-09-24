@@ -1,19 +1,17 @@
 "use client";
 
-import { ReactNode } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/UI/common/Header";
+import LoadingUI from "@/components/UI/common/LoadingUI";
+import { useLoadingStore } from "@/lib/zustand/loadingStore";
+import { ReactNode, useEffect } from "react";
 
-interface ClientLayoutProps {
-  children: ReactNode;
-}
-
-export default function ClientLayout({ children }: ClientLayoutProps) {
+export default function ClientLayout({ children }: { children: ReactNode }) {
+  const isLoading = useLoadingStore((state) => state.isLoading);
   return (
-    <>
+    <main>
+      {isLoading && <LoadingUI />}
       <Header />
-      <main>{children}</main>
-      <Footer />
-    </>
+      {children}
+    </main>
   );
 }
