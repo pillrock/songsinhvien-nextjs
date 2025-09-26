@@ -21,7 +21,10 @@ export const kanitFont = Kanit({
 });
 
 export const metadata: Metadata = {
-  title: "Sống Sinh Viên",
+  title: {
+    template: "Sống Sinh Viên | %s",
+    default: "Sống Sinh Viên",
+  },
   description: "Đa dạng tiện ích cho sinh viên",
 };
 

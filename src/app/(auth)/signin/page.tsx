@@ -4,6 +4,7 @@ import GradientText from "@/components/UI/common/GradientText";
 import InputCustom from "@/components/UI/common/InputCustom";
 import userService from "@/lib/api/user";
 import { routes } from "@/lib/constants/routes";
+import { useUserStore } from "@/lib/zustand/userStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -25,6 +26,7 @@ export default function Signup() {
   const router = useRouter();
   const [auth, setAuth] = useState<Auth>(InitAuth);
   const [isLoginFail, setIsLoginFail] = useState(false);
+  const setUser = useUserStore((s) => s.setUser);
   //check token exists
   useEffect(() => {
     const tokenStoraged = localStorage.getItem("token");
@@ -46,6 +48,10 @@ export default function Signup() {
         "user",
         dataResponse.data ? JSON.stringify(dataResponse.data) : ""
       );
+      setUser((prev) => ({
+        ...prev,
+        token: dataResponse.data ? dataResponse.data.access_token : "",
+      }));
 
       router.push(routes.home);
     } else setIsLoginFail(true);
@@ -68,13 +74,14 @@ export default function Signup() {
           <Image src={"/svgs/Launch.svg"} alt="auth" fill />
         </div>
       </div>
+
       <form
         onSubmit={handleSubmit}
         className="flex-1 items-center justify-center flex md:m-0"
         method="post"
       >
         <div className="p-5 md:p-10 md:pt-0 w-full md:w-[90%] flex flex-col gap-y-5 md:gap-y-7 lg:w-[80%] h-full">
-          <div className="">
+          <div className="relative">
             <h1 className="text-4xl">Đăng nhập</h1>
             <span>Chào mừng trở lại </span>
             <GradientText
@@ -85,6 +92,14 @@ export default function Signup() {
               Sống Sinh Viên
             </GradientText>
             {"!"}
+            <div className="absolute block md:hidden w-full h-full top-0 left-0 blur-md z-[-1]">
+              <Image
+                src={"/images/bgauth.jpg"}
+                alt="logo"
+                fill
+                className="z-[-1] object-cover "
+              />
+            </div>
           </div>
           <div>
             <InputCustom

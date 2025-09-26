@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import userService from "@/lib/api/user";
 import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useUserStore } from "@/lib/zustand/userStore";
 export interface Auth {
   username: string;
   password: string;
@@ -26,6 +27,7 @@ export default function Signup() {
   const [auth, setAuth] = useState<Auth>(InitAuth);
   const isMatchPassword = auth.password === auth.confirmPassword;
   const [isSignupFail, setIsSignupFail] = useState(false);
+  const setUser = useUserStore((s) => s.setUser);
   //check token exists
   useEffect(() => {
     const tokenStoraged = localStorage.getItem("token");
@@ -49,6 +51,11 @@ export default function Signup() {
         "user",
         dataResponse.data ? JSON.stringify(dataResponse.data) : ""
       );
+      setUser((prev) => ({
+        ...prev,
+        token: dataResponse.data ? dataResponse.data.access_token : "",
+      }));
+
       router.push(routes.home);
     } else setIsSignupFail(true);
 

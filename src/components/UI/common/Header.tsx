@@ -7,9 +7,11 @@ import NavBars from "./NavBars";
 import GradientBox from "./GradientBox";
 import { routes } from "@/lib/constants/routes";
 import { User } from "@/lib/api/user";
+import { useUserStore } from "@/lib/zustand/userStore";
 
 function Header() {
   const [isSticky, setIsSticky] = useState(false);
+  const profile = useUserStore((s) => s.profile);
   const [userStorage, setUserStorage] = useState<User | null>(null);
   //check token exists
   useEffect(() => {
@@ -18,7 +20,7 @@ function Header() {
         ? JSON.parse(localStorage.getItem("user")!)
         : null
     );
-  }, []);
+  }, [profile]);
 
   useEffect(() => {
     const handleScroll = () => setIsSticky(window.scrollY > 0);
