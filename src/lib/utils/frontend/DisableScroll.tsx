@@ -7,7 +7,7 @@ export default function useDisableScroll(isHidden: boolean) {
     if (isHidden) {
       document.body.classList.add("overflow-hidden!");
     } else {
-      document.body.classList.remove("overflow-hidden");
+      document.body.classList.remove("overflow-hidden!");
     }
   }, [isHidden]);
 }

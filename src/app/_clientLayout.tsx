@@ -10,7 +10,6 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
   return (
     <main>
       {isLoading && <LoadingUI />}
-      <Header />
       {children}
     </main>
   );

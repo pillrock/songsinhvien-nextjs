@@ -2,7 +2,7 @@ import axios from "axios";
 import { useLoadingStore } from "../zustand/loadingStore";
 
 const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE || "http://localhost:3000/api",
+  baseURL: "/api",
   timeout: 10000,
   headers: { "Content-Type": "application/json" },
 });

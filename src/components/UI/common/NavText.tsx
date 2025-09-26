@@ -54,17 +54,17 @@ export default function NavText({
               <div
                 className={`${
                   !mobile &&
-                  "w-[32px] h-[32px] relative  grid bg-[#16181d] rounded-lg  place-items-center"
+                  "w-[32px] h-[32px] relative  grid bg-[#25C79F] rounded-lg  place-items-center"
                 } `}
               >
                 <span
                   className={`text-[14px] mt-2 md:mt-0
                     items-start flex gap-x-0.5 group-hover/cc:text-[#0c8] transition-all duration-300`}
                 >
-                  <span className="text-gray-300">{icon}</span>
+                  <span className="text-white">{icon}</span>
                 </span>
                 {!mobile && (
-                  <div className="absolute z-10  w-full h-full border border-[#2e3038] rounded-lg bg-gradient-to-r from-black/30 to-gray-500/10"></div>
+                  <div className="absolute z-10  w-full h-full border border-[#37ffcd] rounded-lg bg-gradient-to-r from-black/30 to-gray-500/10"></div>
                 )}
               </div>
             )}

@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { routes } from "@/lib/constants/routes";
 import { User } from "@/lib/api/user";
+import { useUserStore } from "@/lib/zustand/userStore";
 
 export const NavBarsData = [
   {
@@ -56,17 +57,18 @@ export const NavBarsData = [
 export default function NavBars() {
   const [isOpenMobileMenu, setIsOpenMobileMenu] = useState(false);
   const [indexOpenDropMenu, setIndexOpenDropMenu] = useState(-1);
+  const profile = useUserStore((s) => s.profile);
   const [userStorage, setUserStorage] = useState<User | null>(null);
-
+  //check token exists
   useEffect(() => {
     setUserStorage(
       localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user")!)
         : null
     );
-  }, []);
-
+  }, [profile]);
   useDisableScroll(isOpenMobileMenu);
+
   return (
     <>
       <div className="flex justify-between flex-1">
