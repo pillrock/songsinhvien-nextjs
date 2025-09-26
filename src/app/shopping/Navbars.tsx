@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { ReactNode, useState } from "react";
+import { useDrag } from "@use-gesture/react";
 
 const NavbarsData = [
   {
@@ -37,12 +38,20 @@ const NavbarsData = [
 ];
 const Navbars = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const bind = useDrag(({ down, movement: [mx] }) => {
+    console.log({ down, mx });
+
+    if (!down && mx > 100) {
+      console.log("phát hiện vuốt đủ xa");
+    }
+  });
   return (
     <div
-      className="md:flex-[0_0_64px] justify-around fixed bottom-[5dvh]  w-[50dvh] flex-none
-       md:sticky md:top-[13%] h-min overflow-hidden hover:flex-3 min-h-[60px] 
-       flex md:flex-col flex-row pb-3 gap-y-3 border border-[#14524e] 
-       bg-[#112933]/80 px-3 pt-3 rounded-2xl transition-all"
+      {...bind()}
+      className="md:flex-[0_0_64px] touch-none justify-around fixed bottom-[2dvh] right-3 flex-none
+       md:sticky md:top-[13%] h-min overflow-hidden md:hover:flex-6 lg:hover:flex-3 min-h-[60px] 
+       flex md:flex-col p-2 md:p-3 gap-y-3 border border-[#14524e] 
+       bg-[#112933]/80  rounded-2xl transition-all group flex-col-reverse"
     >
       <div className="w-full h-full absolute top-0 left-0 backdrop-blur-[2px] z-[-1]"></div>
       <Link
@@ -57,17 +66,21 @@ const Navbars = () => {
           QUẢN LÝ MUA SẮM
         </p>
       </Link>
-      {NavbarsData.map((item) => (
-        <NavbarsShopping
-          href={item.href}
-          id={item.id}
-          key={item.id}
-          icon={item.icon}
-          title={item.name}
-          activeId={activeTab}
-          setActiveTab={setActiveTab}
-        />
-      ))}
+
+      {/* max-h-0 md:max-h-max transition-all group-hover:max-h-[300px] */}
+      <div className="flex flex-col gap-y-3 ">
+        {NavbarsData.map((item) => (
+          <NavbarsShopping
+            href={item.href}
+            id={item.id}
+            key={item.id}
+            icon={item.icon}
+            title={item.name}
+            activeId={activeTab}
+            setActiveTab={setActiveTab}
+          />
+        ))}
+      </div>
     </div>
   );
 };
@@ -94,9 +107,11 @@ const NavbarsShopping = ({
       onClick={() => setActiveTab(id)}
       className={` ${
         activeId == id && "text-[#25c79f]"
-      } flex gap-x-3 items-center hover:ml-3 hover:text-[#25c79f] transition-all cursor-pointer`}
+      } flex gap-x-3 items-center lg:hover:ml-3  hover:text-[#25c79f] transition-all cursor-pointer`}
     >
-      <div className="p-2  w-min h-min rounded-xl">{icon}</div>
+      <div className="p-2  w-min h-min rounded-xl scale-[0.8] md:scale-100 will-change-transform">
+        {icon}
+      </div>
       <p className="text-[15px] hidden md:block  whitespace-nowrap">{title}</p>
     </Link>
   );
