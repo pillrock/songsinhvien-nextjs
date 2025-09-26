@@ -11,6 +11,7 @@
   "dependencies": {
     "@upstash/ratelimit": "^2.0.6",
     "@upstash/redis": "^1.35.3",
+    "@use-gesture/react": "^10.3.1",
     "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
     "jose": "^6.1.0",
