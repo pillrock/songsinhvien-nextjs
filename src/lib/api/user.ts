@@ -12,10 +12,11 @@ export type User = {
   name: string;
   passwordHash: string;
   username: string;
+  accessToken: string;
 };
 
 const userService = {
-  async getUser(): Promise<ApiResponse<{ data: User } | null>> {
+  async getUser(): Promise<ApiResponse<User | null>> {
     try {
       const res = await apiClient.get("/user/me");
       return res.data;
@@ -28,13 +29,27 @@ const userService = {
       };
     }
   },
+  async logout(): Promise<ApiResponse<User | null>> {
+    try {
+      const res = await apiClient.get("/user/logout");
+      return res.data;
+    } catch (error) {
+      if (error instanceof AxiosError) return error?.response?.data;
+      return {
+        status: "error",
+        message: "An unknown error occurred",
+        data: null,
+      };
+    }
+  },
+
   async loginUser({
     username,
     password,
   }: {
     username: string;
     password: string;
-  }): Promise<ApiResponse<{ access_token: string } | null>> {
+  }): Promise<ApiResponse<User | null>> {
     try {
       const res = await apiClient.post(
         "/signin",
@@ -58,7 +73,7 @@ const userService = {
   }: {
     username: string;
     password: string;
-  }): Promise<ApiResponse<{ access_token: string } | null>> {
+  }): Promise<ApiResponse<User | null>> {
     try {
       const res = await apiClient.post(
         "/signup",

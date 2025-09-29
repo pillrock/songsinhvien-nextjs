@@ -201,3 +201,7 @@ button {
 .loader:before {
   content: "SSV";
 }
+
+input {
+  caret-color: #10b981;
+}

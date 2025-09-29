@@ -7,9 +7,6 @@ export async function POST(req: NextRequest) {
   try {
     return await withCheckAlive(req, async (dataUser) => {
       const { roomId } = await req.json();
-
-      console.log(dataUser);
-
       const { userId } = dataUser!;
 
       // check room exist

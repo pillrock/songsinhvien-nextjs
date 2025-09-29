@@ -44,7 +44,13 @@ export async function middleware(req: NextRequest) {
     return await withAuth(req);
   }
 
-  return NextResponse.next();
+  //handle for route page need auth
+  if (req.method == "GET") {
+    const access_token = req.headers
+      .get("Authorization")
+      ?.replace("Bearer ", "");
+    if (!access_token) return;
+  }
 }
 
 export const config = {

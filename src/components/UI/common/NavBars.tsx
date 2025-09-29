@@ -15,6 +15,7 @@ import {
 import { routes } from "@/lib/constants/routes";
 import { User } from "@/lib/api/user";
 import { useUserStore } from "@/lib/zustand/userStore";
+import { getCookie, getCookies, hasCookie } from "cookies-next/client";
 
 export const NavBarsData = [
   {
@@ -59,7 +60,7 @@ export default function NavBars() {
   const [indexOpenDropMenu, setIndexOpenDropMenu] = useState(-1);
   const profile = useUserStore((s) => s.profile);
   const [userStorage, setUserStorage] = useState<User | null>(null);
-  //check token exists
+
   useEffect(() => {
     setUserStorage(
       localStorage.getItem("user")
@@ -257,7 +258,6 @@ export default function NavBars() {
               <p>{userStorage.username}</p>
               <div
                 onClick={() => {
-                  localStorage.removeItem("token");
                   localStorage.removeItem("user");
                   setUserStorage(null);
                 }}

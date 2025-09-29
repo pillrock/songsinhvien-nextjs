@@ -10,6 +10,8 @@ import userService from "@/lib/api/user";
 import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/lib/zustand/userStore";
+import { getCookie } from "cookies-next/client";
+import { useAuth } from "@/contexts/AuthContext";
 export interface Auth {
   username: string;
   password: string;
@@ -27,12 +29,11 @@ export default function Signup() {
   const [auth, setAuth] = useState<Auth>(InitAuth);
   const isMatchPassword = auth.password === auth.confirmPassword;
   const [isSignupFail, setIsSignupFail] = useState(false);
-  const setUser = useUserStore((s) => s.setUser);
-  //check token exists
+  const { isLogin, updateAuth } = useAuth();
   useEffect(() => {
-    const tokenStoraged = localStorage.getItem("token");
-    if (tokenStoraged) router.push(routes.home);
+    if (isLogin == 1) router.push(routes.home);
   }, []);
+  //check token exists
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -41,21 +42,9 @@ export default function Signup() {
       username: auth.username,
       password: auth.password,
     });
-    if (dataResponse.status === "ok") {
+    if (dataResponse.status === "ok" && dataResponse.data) {
       console.log("Signup success");
-      localStorage.setItem(
-        "token",
-        dataResponse.data ? dataResponse.data.access_token : ""
-      );
-      localStorage.setItem(
-        "user",
-        dataResponse.data ? JSON.stringify(dataResponse.data) : ""
-      );
-      setUser((prev) => ({
-        ...prev,
-        token: dataResponse.data ? dataResponse.data.access_token : "",
-      }));
-
+      updateAuth({ isLogin: 1, ...dataResponse.data });
       router.push(routes.home);
     } else setIsSignupFail(true);
 

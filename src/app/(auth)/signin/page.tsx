@@ -4,11 +4,11 @@ import GradientText from "@/components/UI/common/GradientText";
 import InputCustom from "@/components/UI/common/InputCustom";
 import userService from "@/lib/api/user";
 import { routes } from "@/lib/constants/routes";
-import { useUserStore } from "@/lib/zustand/userStore";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export interface Auth {
   username: string;
@@ -26,33 +26,16 @@ export default function Signup() {
   const router = useRouter();
   const [auth, setAuth] = useState<Auth>(InitAuth);
   const [isLoginFail, setIsLoginFail] = useState(false);
-  const setUser = useUserStore((s) => s.setUser);
-  //check token exists
+  const { updateAuth, isLogin } = useAuth();
   useEffect(() => {
-    const tokenStoraged = localStorage.getItem("token");
-    if (tokenStoraged) router.push(routes.home);
+    if (isLogin == 1) router.push(routes.home);
   }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const dataResponse = await userService.loginUser(auth);
-    if (dataResponse.status === "ok") {
-      console.log(dataResponse);
-
-      //save
-      localStorage.setItem(
-        "token",
-        dataResponse.data ? dataResponse.data.access_token : ""
-      );
-      localStorage.setItem(
-        "user",
-        dataResponse.data ? JSON.stringify(dataResponse.data) : ""
-      );
-      setUser((prev) => ({
-        ...prev,
-        token: dataResponse.data ? dataResponse.data.access_token : "",
-      }));
-
+    if (dataResponse.status === "ok" && dataResponse.data) {
+      updateAuth({ isLogin: 1, ...dataResponse.data });
       router.push(routes.home);
     } else setIsLoginFail(true);
 

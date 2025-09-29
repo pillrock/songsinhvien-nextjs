@@ -3,9 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { generateToken } from "@/lib/utils/api/generateToken";
 import { handleError } from "@/lib/utils/api/handleError";
+import { cookies } from "next/headers";
 export async function POST(res: NextRequest) {
   try {
     const { username, password } = await res.json();
+    const cookiesStore = await cookies();
 
     if (!username || !password) {
       return NextResponse.json(
@@ -39,7 +41,19 @@ export async function POST(res: NextRequest) {
 
     // generate token
     const access_token = await generateToken(newUser[0]);
-    console.log("access_token", access_token);
+
+    //set cookie
+    cookiesStore.set("auth-token", access_token as string, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7,
+      sameSite: "lax",
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+    });
+    cookiesStore.set("isLogin", "1", {
+      maxAge: 60 * 60 * 24 * 7,
+      path: "/",
+    });
 
     return NextResponse.json({
       status: "ok",

@@ -1,29 +1,16 @@
 "use client";
-import ButtonCustom from "./ButtonCustom";
-import NavText from "./NavText";
-import GithubIcon from "../icons/github";
 import { useEffect, useState } from "react";
 import NavBars from "./NavBars";
 import GradientBox from "./GradientBox";
-import { routes } from "@/lib/constants/routes";
-import { User } from "@/lib/api/user";
-import { useUserStore } from "@/lib/zustand/userStore";
-
+import StatusAuthUser from "./StatusAuthUser";
 function Header() {
   const [isSticky, setIsSticky] = useState(false);
-  const profile = useUserStore((s) => s.profile);
-  const [userStorage, setUserStorage] = useState<User | null>(null);
-  //check token exists
-  useEffect(() => {
-    setUserStorage(
-      localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user")!)
-        : null
-    );
-  }, [profile]);
 
   useEffect(() => {
-    const handleScroll = () => setIsSticky(window.scrollY > 0);
+    const handleScroll = () => {
+      const currentStick = window.scrollY > 0;
+      if (currentStick != isSticky) setIsSticky(currentStick);
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -38,54 +25,7 @@ function Header() {
       ></GradientBox>
       {/* logo & navbar */}
       <NavBars />
-
-      {!userStorage ? (
-        <div className="hidden md:flex flex-1 justify-end gap-x-4 ">
-          <div className="flex justify-end items-center">
-            <NavText
-              name="Product"
-              href={"https://github.com/pillrock"}
-              mainNav
-            >
-              <div className="flex group items-center gap-x-1">
-                <span className="group-hover:text-green-500">
-                  <GithubIcon className="group-hover:text-green-500 transition-all duration-300" />
-                </span>
-                <p>Github</p>
-              </div>
-            </NavText>
-          </div>
-          <div className="flex items-center gap-x-2 justify-end ">
-            <ButtonCustom
-              href={routes.signup}
-              className="text-[14px] font-base-bold"
-            >
-              Đăng ký
-            </ButtonCustom>
-            <ButtonCustom
-              className="text-[14px] font-base-bold "
-              full
-              href={routes.signin}
-            >
-              Đăng nhập
-            </ButtonCustom>
-          </div>
-        </div>
-      ) : (
-        <div className="md:flex hidden flex-1 justify-end items-center gap-x-3">
-          <p>{userStorage.username}</p>
-          <div
-            onClick={() => {
-              localStorage.removeItem("token");
-              localStorage.removeItem("user");
-              setUserStorage(null);
-            }}
-            className="cursor-pointer md:grid hidden w-[35px] h-[35px] rounded-full bg-[#10B981] place-items-center"
-          >
-            {userStorage.username?.charAt(0).toUpperCase()}
-          </div>
-        </div>
-      )}
+      <StatusAuthUser />
     </div>
   );
 }
