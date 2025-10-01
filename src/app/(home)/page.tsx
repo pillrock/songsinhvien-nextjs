@@ -1,15 +1,14 @@
 "use client";
 import Content from "@/components/pages/landing/Content";
-import Image from "next/image";
+import { hasCookie, getCookie } from "cookies-next/client";
 import { useEffect, useState } from "react";
 export default function Home() {
   const [token, setToken] = useState<string | null>(null);
   useEffect(() => {
-    const tokenStoraged = localStorage.getItem("token");
-    if (tokenStoraged) setToken(tokenStoraged);
+    if (hasCookie("auth-token")) setToken(getCookie("auth-token") as string);
   }, []);
   return (
-    <div className="">
+    <div className="px-5 md:px-8">
       {token ? (
         <div className="py-10 flex justify-center">
           <img src="https://placewaifu.com/image/200" alt="cc" />

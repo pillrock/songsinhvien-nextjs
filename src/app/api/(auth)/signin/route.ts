@@ -1,12 +1,13 @@
 import { conn } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
 import { generateToken } from "@/lib/utils/api/generateToken";
 import { handleError } from "@/lib/utils/api/handleError";
-export async function POST(res: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const { username, password } = await res.json();
-    console.log(username, password);
+    const { username, password } = await req.json();
+    const cookiesStore = await cookies();
 
     if (!username || !password) {
       return NextResponse.json(
@@ -28,7 +29,6 @@ export async function POST(res: NextRequest) {
         { status: 400 }
       );
     }
-    console.log(isUserExist[0]);
 
     // check password
     const isValidPassword = await bcrypt.compare(
@@ -46,6 +46,19 @@ export async function POST(res: NextRequest) {
     }
     // generate token
     const access_token = await generateToken(isUserExist[0]);
+
+    //set cookie
+    cookiesStore.set("auth-token", access_token as string, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7,
+      sameSite: "lax",
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+    });
+    cookiesStore.set("isLogin", "1", {
+      maxAge: 60 * 60 * 24 * 7,
+      path: "/",
+    });
     return NextResponse.json({
       status: "ok",
       message: "Signin success",

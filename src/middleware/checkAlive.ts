@@ -1,6 +1,6 @@
+import { headers } from "next/headers";
 import { conn } from "@/lib/db";
 import { handleError } from "@/lib/utils/api/handleError";
-import { verifyToken } from "@/lib/utils/api/verifyToken";
 import { NextRequest, NextResponse } from "next/server";
 
 export interface DataUser {
@@ -20,22 +20,22 @@ export interface DataUser {
 
  @returns NextResponse
  */
+
+// qua auth.ts thì mới vào đến đây, mặc định là token được thông qua, không phải check
 export async function withCheckAlive(
   req: NextRequest,
   callback: (dataUser?: DataUser) => Promise<NextResponse>
 ) {
   try {
-    const access_token = req.headers
-      .get("Authorization")
-      ?.replace("Bearer ", "");
-    const decode = await verifyToken(access_token as string);
-    const dataUser = decode?.payload;
-    if (!dataUser) {
+    const headerList = await headers();
+
+    const dataUser = JSON.parse(headerList.get("x-user-data") as string);
+
+    if (!dataUser)
       return NextResponse.json(
-        { status: "error", message: "Unauthorized" },
+        { status: "error", message: "Not Found data in token" },
         { status: 401 }
       );
-    }
     const userId = dataUser?.user_id as number;
 
     const result = await conn`SELECT * FROM users WHERE user_id = ${userId}`;

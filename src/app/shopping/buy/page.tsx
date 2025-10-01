@@ -1,5 +1,7 @@
+import BuyInfo from "./BuyInfo";
+
 const BuyPage = () => {
-  return <div>Buy page</div>;
+  return <BuyInfo />;
 };
 
 export default BuyPage;

@@ -12,11 +12,6 @@ const loadingStore = useLoadingStore.getState();
 
 apiClient.interceptors.request.use(
   (config) => {
-    const token =
-      typeof window !== "undefined" ? localStorage.getItem("token") : null;
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
     if (config.showLoading) {
       activeRequests++;
       loadingStore.setLoading(true);
@@ -36,7 +31,7 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     if (error.response?.status === 401) {
-      console.warn("⚠️ Unauthorized, maybe token expired.");
+      console.warn("⚠️ Lỗi xác thực, có thể token hết hạn.");
     }
     if (error.config.showLoading) {
       activeRequests--;

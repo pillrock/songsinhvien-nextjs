@@ -1,5 +1,5 @@
 "use client";
-import ButtonCustom from "@/components/UI/common/ButtonCustom";
+import ButtonCustom from "@/components/uiSelfCustom/common/ButtonCustom";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 export default function NotFound() {

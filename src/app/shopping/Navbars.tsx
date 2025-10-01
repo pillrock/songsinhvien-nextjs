@@ -59,7 +59,11 @@ const Navbars = () => {
         href={"/shopping"}
         className="flex gap-x-3 items-center"
       >
-        <div className="p-2 bg-[#25C79F] w-min h-min rounded-xl">
+        <div
+          className={`p-2 ${
+            activeTab == 0 && "bg-[#25C79F]"
+          } w-min h-min scale-[0.8] md:scale-100 rounded-xl transition-all duration-300`}
+        >
           <ShoppingBag className="" size={24} />
         </div>
         <p className="text-lg hidden md:block font-base-bold whitespace-nowrap">
@@ -105,11 +109,13 @@ const NavbarsShopping = ({
     <Link
       href={href}
       onClick={() => setActiveTab(id)}
-      className={` ${
-        activeId == id && "text-[#25c79f]"
-      } flex gap-x-3 items-center lg:hover:ml-3  hover:text-[#25c79f] transition-all cursor-pointer`}
+      className={`flex gap-x-3 items-center lg:hover:ml-3  hover:text-[#25c79f] transition-all cursor-pointer`}
     >
-      <div className="p-2  w-min h-min rounded-xl scale-[0.8] md:scale-100 will-change-transform">
+      <div
+        className={`${
+          activeId == id && "bg-[#25C79F] text-white"
+        } p-2  w-min h-min rounded-xl scale-[0.8] md:scale-100 transition-all duration-300 will-change-transform`}
+      >
         {icon}
       </div>
       <p className="text-[15px] hidden md:block  whitespace-nowrap">{title}</p>

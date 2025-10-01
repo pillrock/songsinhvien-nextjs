@@ -1,7 +1,7 @@
 "use client";
-import GradientBox from "@/components/UI/common/GradientBox";
-import GradientText from "@/components/UI/common/GradientText";
-import InputCustom from "@/components/UI/common/InputCustom";
+import GradientBox from "@/components/uiSelfCustom/common/GradientBox";
+import GradientText from "@/components/uiSelfCustom/common/GradientText";
+import InputCustom from "@/components/uiSelfCustom/common/InputCustom";
 import { routes } from "@/lib/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +10,8 @@ import userService from "@/lib/api/user";
 import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/lib/zustand/userStore";
+import { getCookie } from "cookies-next/client";
+import { useAuth } from "@/contexts/AuthContext";
 export interface Auth {
   username: string;
   password: string;
@@ -27,11 +29,12 @@ export default function Signup() {
   const [auth, setAuth] = useState<Auth>(InitAuth);
   const isMatchPassword = auth.password === auth.confirmPassword;
   const [isSignupFail, setIsSignupFail] = useState(false);
-  const setUser = useUserStore((s) => s.setUser);
-  //check token exists
   useEffect(() => {
-    const tokenStoraged = localStorage.getItem("token");
-    if (tokenStoraged) router.push(routes.home);
+    const user = localStorage.getItem("user");
+    if (user) {
+      const { isLogin } = JSON.parse(user);
+      if (isLogin == 1) router.push(routes.home);
+    }
   }, []);
 
   const handleSubmit = async (e: FormEvent) => {
@@ -41,21 +44,9 @@ export default function Signup() {
       username: auth.username,
       password: auth.password,
     });
-    if (dataResponse.status === "ok") {
-      console.log("Signup success");
-      localStorage.setItem(
-        "token",
-        dataResponse.data ? dataResponse.data.access_token : ""
-      );
-      localStorage.setItem(
-        "user",
-        dataResponse.data ? JSON.stringify(dataResponse.data) : ""
-      );
-      setUser((prev) => ({
-        ...prev,
-        token: dataResponse.data ? dataResponse.data.access_token : "",
-      }));
-
+    if (dataResponse.status === "ok" && dataResponse.data) {
+      const userData = { isLogin: 1, ...dataResponse.data };
+      localStorage.setItem("user", JSON.stringify(userData));
       router.push(routes.home);
     } else setIsSignupFail(true);
 

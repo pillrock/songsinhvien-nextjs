@@ -1,4 +1,4 @@
-import LoadingUI from "@/components/UI/common/LoadingUI";
+import LoadingUI from "@/components/uiSelfCustom/common/LoadingUI";
 
 export default function Loading() {
   console.log("Loading");
