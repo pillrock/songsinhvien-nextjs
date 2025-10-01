@@ -33,7 +33,7 @@ const BuyInfo = () => {
       <div className="p-4 rounded-xl">
         <h1 className="text-gray-400">TẠO KHOẢN MUA</h1>
         <div className="mt-5 flex gap-5">
-          <InputCustom2 label="xinchao" />
+          {/* <InputCustom2 label="xinchao" /> */}
         </div>
       </div>
       <div className="p-4 rounded-xl">
