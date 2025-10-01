@@ -1,6 +1,6 @@
 "use client";
-import InputCustom from "@/components/UI/common/InputCustom";
-import InputCustom2 from "@/components/UI/common/InputCustom2";
+import InputCustom from "@/components/uiSelfCustom/common/InputCustom";
+import InputCustom2 from "@/components/uiSelfCustom/common/InputCustom2";
 import { useState } from "react";
 
 type DataBuy = {

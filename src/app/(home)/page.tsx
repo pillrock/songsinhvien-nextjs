@@ -8,7 +8,7 @@ export default function Home() {
     if (hasCookie("auth-token")) setToken(getCookie("auth-token") as string);
   }, []);
   return (
-    <div className="">
+    <div className="px-5 md:px-8">
       {token ? (
         <div className="py-10 flex justify-center">
           <img src="https://placewaifu.com/image/200" alt="cc" />

@@ -1,7 +1,7 @@
 "use client";
-import GradientBox from "@/components/UI/common/GradientBox";
-import GradientText from "@/components/UI/common/GradientText";
-import InputCustom from "@/components/UI/common/InputCustom";
+import GradientBox from "@/components/uiSelfCustom/common/GradientBox";
+import GradientText from "@/components/uiSelfCustom/common/GradientText";
+import InputCustom from "@/components/uiSelfCustom/common/InputCustom";
 import { routes } from "@/lib/constants/routes";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,11 +29,13 @@ export default function Signup() {
   const [auth, setAuth] = useState<Auth>(InitAuth);
   const isMatchPassword = auth.password === auth.confirmPassword;
   const [isSignupFail, setIsSignupFail] = useState(false);
-  const { isLogin, updateAuth } = useAuth();
   useEffect(() => {
-    if (isLogin == 1) router.push(routes.home);
+    const user = localStorage.getItem("user");
+    if (user) {
+      const { isLogin } = JSON.parse(user);
+      if (isLogin == 1) router.push(routes.home);
+    }
   }, []);
-  //check token exists
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -43,8 +45,8 @@ export default function Signup() {
       password: auth.password,
     });
     if (dataResponse.status === "ok" && dataResponse.data) {
-      console.log("Signup success");
-      updateAuth({ isLogin: 1, ...dataResponse.data });
+      const userData = { isLogin: 1, ...dataResponse.data };
+      localStorage.setItem("user", JSON.stringify(userData));
       router.push(routes.home);
     } else setIsSignupFail(true);
 

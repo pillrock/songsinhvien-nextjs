@@ -62,7 +62,7 @@ const Navbars = () => {
         <div
           className={`p-2 ${
             activeTab == 0 && "bg-[#25C79F]"
-          } w-min h-min rounded-xl transition-all duration-300`}
+          } w-min h-min scale-[0.8] md:scale-100 rounded-xl transition-all duration-300`}
         >
           <ShoppingBag className="" size={24} />
         </div>

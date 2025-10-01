@@ -18,8 +18,8 @@ export default function RoomInfo({ data }: { data: DataTest[] }) {
     <div className="grid md:grid-cols-[2fr_1fr] grid-cols-1 gap-x-4">
       <div className="p-4 rounded-xl">
         <h1 className="text-gray-400">THÔNG TIN PHÒNG</h1>
-        <div className="mt-5 flex gap-5">
-          <div className="relative overflow-hidden w-[200px] h-[200px] rounded-full ring-2 ring-[#10B981] ring-offset-6 ring-offset-[#050505]">
+        <div className="mt-5 flex gap-5 flex-wrap justify-center lg:justify-start">
+          <div className="relative overflow-hidden w-[100px] lg:w-[200px] h-[100px] lg:h-[200px] rounded-full ring-2 ring-[#10B981] ring-offset-6 ring-offset-[#050505]">
             <Image
               src={
                 "https://images.pexels.com/photos/5483071/pexels-photo-5483071.jpeg"

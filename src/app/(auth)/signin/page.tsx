@@ -1,7 +1,7 @@
 "use client";
-import GradientBox from "@/components/UI/common/GradientBox";
-import GradientText from "@/components/UI/common/GradientText";
-import InputCustom from "@/components/UI/common/InputCustom";
+import GradientBox from "@/components/uiSelfCustom/common/GradientBox";
+import GradientText from "@/components/uiSelfCustom/common/GradientText";
+import InputCustom from "@/components/uiSelfCustom/common/InputCustom";
 import userService from "@/lib/api/user";
 import { routes } from "@/lib/constants/routes";
 import Image from "next/image";
@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 export interface Auth {
   username: string;
@@ -26,16 +27,23 @@ export default function Signup() {
   const router = useRouter();
   const [auth, setAuth] = useState<Auth>(InitAuth);
   const [isLoginFail, setIsLoginFail] = useState(false);
-  const { updateAuth, isLogin } = useAuth();
+  // Đọc trạng thái login từ localStorage
   useEffect(() => {
-    if (isLogin == 1) router.push(routes.home);
+    const user = localStorage.getItem("user");
+    if (user) {
+      const { isLogin } = JSON.parse(user);
+      if (isLogin == 1) router.push(routes.home);
+    }
   }, []);
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const dataResponse = await userService.loginUser(auth);
     if (dataResponse.status === "ok" && dataResponse.data) {
-      updateAuth({ isLogin: 1, ...dataResponse.data });
+      const userData = { isLogin: 1, ...dataResponse.data };
+      localStorage.setItem("user", JSON.stringify(userData));
+      toast("Đăng nhập thành công 🎉", {
+        description: `Hi ${dataResponse.data.username}, chào mừng trở lại!`,
+      });
       router.push(routes.home);
     } else setIsLoginFail(true);
 
@@ -107,6 +115,7 @@ export default function Signup() {
               type="password"
               required
             />
+
             <div
               className={`overflow-hidden transition-all max-h-0 duration-300 ${
                 isLoginFail && !auth.password && "max-h-full"

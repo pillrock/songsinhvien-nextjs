@@ -2,8 +2,10 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { withAuth } from "./middleware/auth";
 import { rateLimit } from "./lib/rate-limit";
+import { cookies } from "next/headers";
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+  const cookiesStore = await cookies();
   const identifier = `${req.headers.get("x-forwarded-for")}-${req.headers.get(
     "user-agent"
   )}`;
@@ -44,12 +46,9 @@ export async function middleware(req: NextRequest) {
     return await withAuth(req);
   }
 
-  //handle for route page need auth
+  // handle for route page need auth
   if (req.method == "GET") {
-    const access_token = req.headers
-      .get("Authorization")
-      ?.replace("Bearer ", "");
-    if (!access_token) return;
+    console.log("Xiin chao : ", cookiesStore.getAll());
   }
 }
 

@@ -8,7 +8,11 @@ function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (window.scrollY == 0) return setIsSticky(false);
+
       const currentStick = window.scrollY > 0;
+      console.log(window.scrollY);
+
       if (currentStick != isSticky) setIsSticky(currentStick);
     };
     window.addEventListener("scroll", handleScroll);

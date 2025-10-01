@@ -16,6 +16,7 @@ import { routes } from "@/lib/constants/routes";
 import { User } from "@/lib/api/user";
 import { useUserStore } from "@/lib/zustand/userStore";
 import { getCookie, getCookies, hasCookie } from "cookies-next/client";
+import { Button } from "@/components/ui/button";
 
 export const NavBarsData = [
   {
@@ -229,29 +230,25 @@ export default function NavBars() {
           </div>
           {!userStorage ? (
             <div className="py-8 flex flex-col md:flex-row gap-2 justify-between">
-              <div
+              <Link
+                href={routes.signin}
                 onClick={() => setIsOpenMobileMenu(false)}
                 className="flex-1"
               >
-                <ButtonCustom
-                  href={routes.signup}
-                  className="w-full text-[14px] font-base-bold "
+                <Button variant={"outline"}>Đăng nhập</Button>
+              </Link>
+              <Link
+                href={routes.signup}
+                className="flex-1"
+                onClick={() => setIsOpenMobileMenu(false)}
+              >
+                <Button
+                  size={"lg"}
+                  className="bg-primary-1 hover:bg-primary-1/90 hover:opacity-90"
                 >
                   Đăng ký
-                </ButtonCustom>
-              </div>
-              <div
-                className="flex-1"
-                onClick={() => setIsOpenMobileMenu(false)}
-              >
-                <ButtonCustom
-                  className="text-[14px] w-full font-base-bold flex-1"
-                  full
-                  href={routes.signin}
-                >
-                  Đăng nhập
-                </ButtonCustom>
-              </div>
+                </Button>
+              </Link>
             </div>
           ) : (
             <div className="flex justify-end items-center gap-x-2 mb-10">

@@ -1,7 +1,7 @@
-import Introduction from "../../UI/pages/landing/Introduction";
-import SlideOver from "@/components/UI/pages/landing/SlideOver";
-import StatsHighlight from "@/components/UI/pages/landing/StatsHighlight";
-import TalkAboutUs from "@/components/UI/pages/landing/TalkAboutUs";
+import Introduction from "../../uiSelfCustom/pages/landing/Introduction";
+import SlideOver from "@/components/uiSelfCustom/pages/landing/SlideOver";
+import StatsHighlight from "@/components/uiSelfCustom/pages/landing/StatsHighlight";
+import TalkAboutUs from "@/components/uiSelfCustom/pages/landing/TalkAboutUs";
 
 function LandingPage() {
   return (
